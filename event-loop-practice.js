@@ -148,3 +148,95 @@
 // 4
 // 5
 // 3
+
+// console.log('A');
+// setTimeout(() => console.log('B'), 0);
+// Promise.resolve().then(() => console.log('C'));
+// process.nextTick(() => console.log('D'));
+// console.log('E');
+// OUTPUT
+// A E D C B
+
+// setTimeout(() => console.log('timeout'), 0);
+// setImmediate(() => console.log('immediate'));
+// OUTPUT
+// timeout
+// immediate
+
+// const fs = require('fs');
+// fs.readFile(__filename, () => {
+//   setTimeout(() => console.log('timeout'), 0);
+//   setImmediate(() => console.log('immediate'));
+// });
+
+// OUTPUT
+// immediate
+// timeout
+
+// Promise.resolve().then(() => console.log('P1'));
+// process.nextTick(() => {
+//   console.log('N1');
+//   Promise.resolve().then(() => console.log('P2'));
+//   process.nextTick(() => console.log('N2'));
+// });
+// Promise.resolve().then(() => console.log('P3'));
+
+// OUTPUT
+// N1
+// N2
+// P1
+// P3
+// P2
+
+// setTimeout(() => {
+//   console.log('T1');
+//   Promise.resolve().then(() => console.log('P1'));
+// }, 0);
+// setTimeout(() => console.log('T2'), 0);
+
+// OUTPUT
+// T1
+// P1
+// T2
+
+// counter.js
+// let count = 0;
+// console.log('loading counter');
+// module.exports = { inc: () => ++count };
+
+// // app.js
+// const a = require('./counter');
+// const b = require('./counter');
+// console.log(a.inc(), b.inc(), a === b);
+
+// OUTPUT
+// loading counter
+// 1 2 true
+
+// async function f() {
+//   console.log('1');
+//   await null;
+//   console.log('2');
+// }
+// console.log('3');
+// f();
+// process.nextTick(() => console.log('4'));
+// console.log('5');
+
+// OUTPUT
+// 3
+// 1
+// 5
+// 4
+// 2
+
+// const crypto = require('crypto');
+// const start = Date.now();
+// for (let i = 1; i <= 5; i++) {
+//   crypto.pbkdf2('a', 'b', 100000, 512, 'sha512', () => {
+//     console.log(i, Date.now() - start);
+//   });
+// }
+
+// OUTPUT
+// ???????
